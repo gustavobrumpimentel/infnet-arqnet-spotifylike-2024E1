@@ -1,6 +1,5 @@
 package br.edu.infnet.spotifylike.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 

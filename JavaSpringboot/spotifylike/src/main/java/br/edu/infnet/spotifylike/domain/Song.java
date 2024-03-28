@@ -3,22 +3,20 @@ package br.edu.infnet.spotifylike.domain;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.List;
 import java.util.UUID;
 
 @Data
 @Entity
-public class Banda {
+public class Song {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    public UUID id;
 
     @Column
-    private String nome;
+    public String name;
 
     @Column
-    private String descricao;
+    public int duration;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Album> albums;
 }

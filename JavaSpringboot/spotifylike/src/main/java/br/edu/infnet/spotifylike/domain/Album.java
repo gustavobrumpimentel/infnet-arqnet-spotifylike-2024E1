@@ -1,6 +1,5 @@
 package br.edu.infnet.spotifylike.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -16,8 +15,8 @@ public class Album {
     private UUID id;
 
     @Column
-    private String nome;
+    private String name;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Musica> musicas;
+    private List<Song> songs;
 }

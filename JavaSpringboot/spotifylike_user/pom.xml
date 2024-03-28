@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>br.edu.infnet</groupId>
-    <artifactId>spotifylike</artifactId>
+    <artifactId>spotifylike_user</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>spotifylike</name>
-    <description>spotifylike</description>
+    <name>spotifylike_user</name>
+    <description>spotifylike_user</description>
     <properties>
         <java.version>21</java.version>
     </properties>
