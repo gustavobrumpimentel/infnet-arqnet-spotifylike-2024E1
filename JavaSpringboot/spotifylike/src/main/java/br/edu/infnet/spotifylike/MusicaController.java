@@ -1,7 +1,6 @@
 package br.edu.infnet.spotifylike;
 
 import br.edu.infnet.spotifylike.application.MusicaService;
-import br.edu.infnet.spotifylike.domain.Banda;
 import br.edu.infnet.spotifylike.domain.Musica;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
