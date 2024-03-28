@@ -25,5 +25,11 @@ public class Plan {
 
     @Column
     private float value;
+
+    public Plan(String name, String descritption, float value) {
+        this.name = name;
+        this.descritption = descritption;
+        this.value = value;
+    }
     
 }

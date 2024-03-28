@@ -1,6 +1,7 @@
 package br.edu.infnet.spotifylike_user.domain;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,7 +16,7 @@ import lombok.Data;
 
 @Data
 @Entity
-public class User {
+public class Usuario {
     
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -33,8 +34,13 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Subscription> subscriptions;
 
-    public User(String name, Plan plan, Card card) {
+    public Usuario(String name) {
+        Plan plan = new Plan("familia", "descricao", 19.5F);
+        Card card = new Card(true, 10000F, "123456");
         this.name = name;
+        this.cards = new ArrayList<>();
+        this.playlists = new ArrayList<>();
+        this.subscriptions = new ArrayList<>();
         this.addCard(card);
         this.subscribe(plan, card);
         this.createFavoritesPlaylist();
