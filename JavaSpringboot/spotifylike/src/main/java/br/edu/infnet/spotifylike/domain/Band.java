@@ -8,8 +8,7 @@ import java.util.UUID;
 
 @Data
 @Entity
-public class Album {
-
+public class Band {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -17,6 +16,9 @@ public class Album {
     @Column
     private String name;
 
+    @Column
+    private String description;
+
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Song> songs;
+    private List<Album> albums;
 }
