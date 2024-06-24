@@ -12,60 +12,75 @@ import br.edu.infnet.spotifylike_user.domain.Playlist;
 import br.edu.infnet.spotifylike_user.domain.Song;
 import br.edu.infnet.spotifylike_user.domain.Usuario;
 import br.edu.infnet.spotifylike_user.repository.UsuarioRepository;
+import br.edu.infnet.spotifylike_user.repository.BandRepository;
 import br.edu.infnet.spotifylike_user.repository.PlanRepository;
 import br.edu.infnet.spotifylike_user.repository.PlaylistRepository;
-import br.edu.infnet.spotifylike_user.repository.SongRepository;
 
 @Service
 public class UsuarioService {
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private UsuarioRepository userRepository;
 
     @Autowired
     private PlanRepository planRepository;
 
     @Autowired
-    private SongRepository songRepository;
+    private BandRepository bandRepository;
 
     @Autowired
     private PlaylistRepository playlistRepository;
 
-    public Optional<Usuario> getUsuario(UUID id) {
-        return this.usuarioRepository.findById(id);
+    public Optional<Usuario> getUser(UUID id) {
+        return this.userRepository.findById(id);
+    }
+
+    public Usuario createAccount(String name, UUID planId, Card card) {
+        Plan plan = this.planRepository.findById(planId).get();
+
+        Usuario user = new Usuario(name, plan, card);
+
+        this.userRepository.save(user);
+
+        return user;
     }
 
     public Usuario createAccount(String name) {
-        Usuario usuario = new Usuario(name);
+        Usuario user = new Usuario(name);
 
-        this.usuarioRepository.save(usuario);
+        this.userRepository.save(user);
 
-        return usuario;
+        return user;
     }
 
     public void favoriteSong(UUID id, UUID songId) {
-        Usuario usuario = this.usuarioRepository.findById(id).get();
+        Usuario user = this.userRepository.findById(id).get();
 
         Song song = verifySong(songId);
 
-        usuario.favoriteSong(song);
+        user.favoriteSong(song);
 
-        this.usuarioRepository.save(usuario);
+        this.userRepository.save(user);
     }
 
     public void unfavoriteSong(UUID id, UUID songId) {
-        Usuario usuario = this.usuarioRepository.findById(id).get();
+        Usuario user = this.userRepository.findById(id).get();
 
         Song song = verifySong(songId);
 
-        usuario.unfavoriteSong(song);
+        user.unfavoriteSong(song);
 
-        this.usuarioRepository.save(usuario);
+        this.userRepository.save(user);
     }
 
     private Song verifySong(UUID songId) {
 
-        Song song = this.songRepository.findById(songId).get();
+        Song song = new Song();
+        try {
+            song = this.bandRepository.getSong(songId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return song;
     }
@@ -78,42 +93,44 @@ public class UsuarioService {
     }
 
     public void createPlaylist(UUID id, String name, boolean isPublic) {
-        Usuario usuario = this.usuarioRepository.findById(id).get();
+        Usuario user = this.userRepository.findById(id).get();
 
-        usuario.createPlaylist(name, isPublic);
+        user.createPlaylist(name, isPublic);
+
+        this.userRepository.save(user);
     }
 
     public void addSongToPlaylist(UUID id, UUID songId, UUID playlistId) {
-        Usuario usuario = this.usuarioRepository.findById(id).get();
+        Usuario user = this.userRepository.findById(id).get();
 
         Song song = verifySong(songId);
 
         Playlist playlist = verifyPlaylist(playlistId);
 
-        usuario.addSongToPlaylist(song, playlist);
+        user.addSongToPlaylist(song, playlist);
 
-        this.usuarioRepository.save(usuario);
+        this.userRepository.save(user);
     }
 
     public void removeSongFromPlaylist(UUID id, UUID songId, UUID playlistId) {
-        Usuario usuario = this.usuarioRepository.findById(id).get();
+        Usuario user = this.userRepository.findById(id).get();
 
         Song song = verifySong(songId);
 
         Playlist playlist = verifyPlaylist(playlistId);
 
-        usuario.removeSongFromPlaylist(song, playlist);
+        user.removeSongFromPlaylist(song, playlist);
 
-        this.usuarioRepository.save(usuario);
+        this.userRepository.save(user);
     }
 
     public void subscribe(UUID id, UUID planId, Card card) {
-        Usuario usuario = this.usuarioRepository.findById(id).get();
+        Usuario user = this.userRepository.findById(id).get();
 
         Plan plan = this.planRepository.findById(id).get();
 
-        usuario.subscribe(plan, card);
+        user.subscribe(plan, card);
 
-        this.usuarioRepository.save(usuario);
+        this.userRepository.save(user);
     }
 }

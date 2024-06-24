@@ -24,12 +24,11 @@ public class Plan {
     private String descritption;
 
     @Column
-    private float value;
+    private float valor;
 
-    public Plan(String name, String descritption, float value) {
-        this.name = name;
-        this.descritption = descritption;
-        this.value = value;
-    }
-    
+    public Plan() {
+        this.name = "";
+        this.descritption = "";
+        this.valor = 0F;
+    }    
 }

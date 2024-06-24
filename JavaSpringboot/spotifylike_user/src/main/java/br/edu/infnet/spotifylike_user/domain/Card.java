@@ -24,7 +24,7 @@ public class Card {
     private boolean active;
 
     @Column
-    private float limit;
+    private float limite;
 
     @Column
     private String number;
@@ -34,8 +34,14 @@ public class Card {
 
     public Card(boolean active, float limit, String number) {
         this.active = active;
-        this.limit = limit;
+        this.limite = limit;
         this.number = number;
+    }
+
+    public Card() {
+        this.active = true;
+        this.limite = 0L;
+        this.number = "";
     }
 
     public void createTransaction(String name, float value, String description) {

@@ -1,8 +1,8 @@
 package br.edu.infnet.spotifylike_user.domain;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import jakarta.persistence.CascadeType;
@@ -34,16 +34,29 @@ public class Usuario {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Subscription> subscriptions;
 
-    public Usuario(String name) {
-        Plan plan = new Plan("familia", "descricao", 19.5F);
-        Card card = new Card(true, 10000F, "123456");
+    public Usuario(String name, Plan plan, Card card) {
         this.name = name;
-        this.cards = new ArrayList<>();
-        this.playlists = new ArrayList<>();
-        this.subscriptions = new ArrayList<>();
+        this.cards = new ArrayList<Card>();
+        this.playlists = new ArrayList<Playlist>();
+        this.subscriptions = new ArrayList<Subscription>();
         this.addCard(card);
         this.subscribe(plan, card);
         this.createFavoritesPlaylist();
+    }
+
+    public Usuario(String name) {
+        this.name = name;
+        this.cards = new ArrayList<Card>();
+        this.playlists = new ArrayList<Playlist>();
+        this.subscriptions = new ArrayList<Subscription>();
+        this.createFavoritesPlaylist();
+    }
+
+    public Usuario() {
+        this.name = "";
+        this.cards = new ArrayList<Card>();
+        this.playlists = new ArrayList<Playlist>();
+        this.subscriptions = new ArrayList<Subscription>();
     }
 
     public void addCard(Card card) {
@@ -51,7 +64,7 @@ public class Usuario {
     }
 
     public void subscribe(Plan plan, Card card) {
-        card.createTransaction(plan.getName(), plan.getValue(), plan.getDescritption());
+        card.createTransaction(plan.getName(), plan.getValor(), plan.getDescritption());
 
         if (!this.subscriptions.isEmpty() && this.subscriptions.stream().anyMatch(Subscription::isActive)) {
             Subscription activeSubscription = this.subscriptions.stream().filter(subscription -> subscription.isActive()).findFirst().orElse(null);
@@ -70,13 +83,13 @@ public class Usuario {
     }
 
     public void favoriteSong(Song song) {
-        Playlist playlist = this.playlists.stream().filter(x -> x.getName() == "Favorites").findFirst().orElse(null);
+        Playlist playlist = this.playlists.stream().filter(x -> x.getName() == "Favoritas").findFirst().orElse(null);
 
         playlist.getSongs().add(song);
     }
 
     public void unfavoriteSong(Song song) {
-        Playlist playlist = this.playlists.stream().filter(x -> x.getName() == "Favorites").findFirst().orElse(null);
+        Playlist playlist = this.playlists.stream().filter(x -> x.getName() == "Favoritas").findFirst().orElse(null);
 
         Song favSong = playlist.getSongs().stream().filter(x -> x.getId() == song.getId()).findFirst().orElse(null);
         

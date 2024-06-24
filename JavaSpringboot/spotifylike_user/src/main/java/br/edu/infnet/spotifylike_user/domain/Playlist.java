@@ -1,5 +1,6 @@
 package br.edu.infnet.spotifylike_user.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,5 +32,12 @@ public class Playlist {
     public Playlist(String name, boolean isPublic) {
         this.name = name;
         this.isPublic = isPublic;
+        this.songs = new ArrayList<Song>();
+    }
+    
+    public Playlist() {
+        this.name = "";
+        this.isPublic = false;
+        this.songs = new ArrayList<Song>();
     }
 }

@@ -15,20 +15,25 @@ import java.util.UUID;
 public class UsuarioController {
 
     @Autowired
-    private UsuarioService usuarioService;
+    private UsuarioService userService;
+
+    // criar conta
+    @PostMapping
+    public ResponseEntity<Usuario> create(@RequestBody Usuario user) {
+        this.userService.createAccount(user.getName(), user.getSubscriptions().get(0).getPlan().getId(), user.getCards().get(0));
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
+    }
 
     // criar conta
     @PostMapping("{name}")
     public ResponseEntity<Usuario> create(@PathVariable("name") String name) {
-
-        Usuario usuario = this.usuarioService.createAccount(name);
-
-        return new ResponseEntity<>(usuario, HttpStatus.CREATED);
-    }
+        Usuario user = this.userService.createAccount(name);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
+    }    
 
     @GetMapping("{id}")
     public ResponseEntity<Usuario> get(@PathVariable("id") UUID id) {
-        return this.usuarioService.getUsuario(id).map(x -> {
+        return this.userService.getUser(id).map(x -> {
             return new ResponseEntity<Usuario>(x, HttpStatus.OK);
         }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -36,63 +41,63 @@ public class UsuarioController {
     // favoritar musica
     @PostMapping("{id}/favorite/{songId}")
     public ResponseEntity<Usuario> favoriteSong(@PathVariable("id") UUID id, @PathVariable("songId") UUID songId) {
-        usuarioService.favoriteSong(id, songId);
+        userService.favoriteSong(id, songId);
 
-        Usuario usuario = usuarioService.getUsuario(id).get();
+        Usuario user = userService.getUser(id).get();
 
-        return new ResponseEntity<>(usuario, HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     // desfavoritar musica
     @PostMapping("/{id}/unfavorite/{songId}")
     public ResponseEntity<Usuario> unfavoriteSong(@PathVariable("id") UUID id, @PathVariable("songId") UUID songId) {
-        usuarioService.unfavoriteSong(id, songId);
+        userService.unfavoriteSong(id, songId);
 
-        Usuario usuario = usuarioService.getUsuario(id).get();
+        Usuario user = userService.getUser(id).get();
 
-        return new ResponseEntity<>(usuario, HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     // criar playlist
     @PostMapping("{id}/playlist/{playlistName}/{isPublic}")
     public ResponseEntity<Usuario> createPlaylist(@PathVariable("id") UUID id, @PathVariable("playlistName") String playlistName, @PathVariable("isPublic") boolean isPublic) {
-        usuarioService.createPlaylist(id, playlistName, true);
+        userService.createPlaylist(id, playlistName, isPublic);
 
-        Usuario usuario = usuarioService.getUsuario(id).get();
+        Usuario user = userService.getUser(id).get();
 
-        return new ResponseEntity<>(usuario, HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     // adicionar musica
     @PostMapping("/{id}/add/{songId}/{playlistId}")
     public ResponseEntity<Usuario> addSongToPlaylist(@PathVariable("id") UUID id, @PathVariable("songId") UUID songId, @PathVariable("playlistId") UUID playlistId) {
-        usuarioService.addSongToPlaylist(id, songId, playlistId);
+        userService.addSongToPlaylist(id, songId, playlistId);
 
-        Usuario usuario = usuarioService.getUsuario(id).get();
+        Usuario user = userService.getUser(id).get();
 
-        return new ResponseEntity<>(usuario, HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }    
 
     // remover musica
     @PostMapping("/{id}/remove/{songId}/{playlistId}")
     public ResponseEntity<Usuario> removeSongFromPlaylist(@PathVariable("id") UUID id, @PathVariable("songId") UUID songId, @PathVariable("playlistId") UUID playlistId) {
-        usuarioService.removeSongFromPlaylist(id, songId, playlistId);
+        userService.removeSongFromPlaylist(id, songId, playlistId);
 
-        Usuario usuario = usuarioService.getUsuario(id).get();
+        Usuario user = userService.getUser(id).get();
 
-        return new ResponseEntity<>(usuario, HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     // escolher um plano
     @PostMapping("/{id}/subscribe/{planId}")
     public ResponseEntity<Usuario> subscribe(@PathVariable("id") UUID id, @PathVariable("planId") UUID songId, @PathVariable("playlistId") UUID playlistId) {
-        Usuario usuario = usuarioService.getUsuario(id).get();
+        Usuario user = userService.getUser(id).get();
 
-        usuarioService.removeSongFromPlaylist(id, songId, playlistId);
+        userService.removeSongFromPlaylist(id, songId, playlistId);
 
-        usuario = usuarioService.getUsuario(id).get();
+        user = userService.getUser(id).get();
 
-        return new ResponseEntity<>(usuario, HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
 }
