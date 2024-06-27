@@ -35,16 +35,6 @@ public class UsuarioService {
         return this.userRepository.findById(id);
     }
 
-    public Usuario createAccount(String name, UUID planId, Card card) {
-        Plan plan = this.planRepository.findById(planId).get();
-
-        Usuario user = new Usuario(name, plan, card);
-
-        this.userRepository.save(user);
-
-        return user;
-    }
-
     public Usuario createAccount(String name) {
         Usuario user = new Usuario(name);
 
