@@ -1,6 +1,9 @@
 package br.edu.infnet.spotifylike.service;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +73,7 @@ public class BandServiceTest {
         band.setName("Dummy Band");
         band.setDescription("Dummy Description");
 
-        given(this.repository.save(band));
+        when(repository.save(band)).thenReturn(band); 
 
         this.service.create(band);
 

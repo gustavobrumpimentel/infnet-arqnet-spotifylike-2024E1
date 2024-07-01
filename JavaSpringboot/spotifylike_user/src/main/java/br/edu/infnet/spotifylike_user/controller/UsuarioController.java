@@ -20,7 +20,7 @@ public class UsuarioController {
     // criar conta
     @PostMapping
     public ResponseEntity<Usuario> create(@RequestBody Usuario user) {
-        this.userService.createAccount(user.getName(), user.getSubscriptions().get(0).getPlan().getId(), user.getCards().get(0));
+        this.userService.createAccount(user.getName());
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 

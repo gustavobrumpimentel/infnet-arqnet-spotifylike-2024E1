@@ -2,7 +2,6 @@ package br.edu.infnet.spotifylike.controller;
 
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import br.edu.infnet.spotifylike.application.BandService;
 import br.edu.infnet.spotifylike.domain.Band;
 import java.util.ArrayList;
@@ -14,7 +13,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import br.edu.infnet.spotifylike.SpotifylikeApplication;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -22,7 +20,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = SpotifylikeApplication.class)
 @AutoConfigureMockMvc
 @WebMvcTest(controllers = BandController.class)
 public class BandControllerTest {
@@ -74,9 +71,9 @@ public class BandControllerTest {
         mvc.perform(get("/band/" + bandId.toString())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].name", is(band.getName())))
-                .andExpect(jsonPath("$[0].id", is(band.getId().toString())))
-                .andExpect(jsonPath("$[0].description", is(band.getDescription())));
+                .andExpect(jsonPath("$.name", is(band.getName())))
+                .andExpect(jsonPath("$.id", is(band.getId().toString())))
+                .andExpect(jsonPath("$.description", is(band.getDescription())));
 
     }
 
@@ -106,9 +103,9 @@ public class BandControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(band)))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$[0].name", is(band.getName())))
-                .andExpect(jsonPath("$[0].id", is(band.getId().toString())))
-                .andExpect(jsonPath("$[0].description", is(band.getDescription())));
+                .andExpect(jsonPath("$.name", is(band.getName())))
+                .andExpect(jsonPath("$.id", is(band.getId().toString())))
+                .andExpect(jsonPath("$.description", is(band.getDescription())));
 
     }
 

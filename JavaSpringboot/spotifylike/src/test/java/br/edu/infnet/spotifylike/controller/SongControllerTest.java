@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -16,9 +15,8 @@ import java.util.UUID;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import br.edu.infnet.spotifylike.SpotifylikeApplication;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = SpotifylikeApplication.class)
+// @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = SpotifylikeApplication.class)
 @AutoConfigureMockMvc
 @WebMvcTest(controllers = SongController.class)
 public class SongControllerTest {
